@@ -6,13 +6,16 @@ const {schemas} = require("../../models/recipe");
 
 const router = express.Router();
 
-router.get('/', authenticate, ctrl.getAll);
+router.get('/', ctrl.getAll);
+router.get('/own', authenticate, ctrl.getOwnAll);
+// router.get('/own', ctrl.getOwnAll);
 
 router.get('/:id', authenticate, isValidId, ctrl.getById);
 
 router.delete('/:id', authenticate, isValidId, ctrl.deleteById);
 
 router.post('/', authenticate, validateBody(schemas.addSchema), ctrl.add);
+// router.post('/', validateBody(schemas.addSchema), ctrl.add);
 
 router.put('/:id', authenticate, isValidId, validateBody(schemas.addSchema), ctrl.updateById);
 

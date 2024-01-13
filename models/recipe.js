@@ -88,7 +88,7 @@ const recipeSchema = new Schema({
     },
     ingredients: {
         type: [ingredientSchema],
-        required: [true, 'Set ingredients for recipe'],
+
     },
     tips: [String],
     steps: {

@@ -10,7 +10,7 @@ const AuthRouter = require('./routes/auth');
 // auth google
 // const authGoogleRouter = require("./routes/authGoogleRouter");
 // const userRouter = require("./routes/users");
-// const recipesRouter = require("./routes/api/recipes");
+const recipesRouter = require("./routes/api/recipes");
 // const feedbacksRouter = require("./routes/api/feedbacks");
 
 const app = express();
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/auth', AuthRouter);
 // app.use("/auth", authGoogleRouter);
 // app.use("/users", userRouter);
-// app.use("/recipes", recipesRouter);
+app.use("/recipes", recipesRouter);
 // app.use("/feedbacks", feedbacksRouter);
 
 app.use((req, res) => {
