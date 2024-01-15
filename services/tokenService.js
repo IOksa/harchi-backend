@@ -5,10 +5,11 @@ const Token = require('../models/Token');
 class TokenService {
 	generateTokens(payload) {
 		const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-			expiresIn: '10s',
+			expiresIn: '30m',
 		});
 		const refreshToken = scryptSync(process.env.JWT_REFRESH_SECRET, 'salt', 64).toString('hex');
 
+		
 		return {
 			accessToken,
 			refreshToken,
@@ -37,6 +38,7 @@ class TokenService {
 	}
 
 	validateAccessToken(token) {
+		console.log("validateAccessToken token=", token);
 		try {
 			const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 			return userData;
