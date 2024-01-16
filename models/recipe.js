@@ -95,7 +95,6 @@ const recipeSchema = new Schema({
         type: [stepSchema],
     },
     
-
     favorite: {
         type: Boolean,
         default: false,
@@ -103,7 +102,7 @@ const recipeSchema = new Schema({
       
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true,
      }
 }, {versionKey: false, timestamps: true});
@@ -147,32 +146,37 @@ const addSchema = Joi.object({
         'any.required': 'missing required portions field'
     }),
 
-    categoryIngr: Joi.string().required().messages({
-        'string.base': '"categoryIngr" should be a type of "string"',
-        'string.empty': '"categoryIngr" cannot be an empty field',
-        'any.required': 'missing required categoryIngr field'
-    }),
-    product: Joi.string().required().messages({
-        'string.base': '"product" should be a type of "string"',
-        'string.empty': '"product" cannot be an empty field',
-        'any.required': 'missing required product field'
-    }),
-    quantity: Joi.string().required().messages({
-        'string.base': '"quantity" should be a type of "string"',
-        'string.empty': '"quantity" cannot be an empty field',
-        'any.required': 'missing required quantity field'
-    }),
-    measure: Joi.string().required().messages({
-        'string.base': '"measure" should be a type of "string"',
-        'string.empty': '"measure" cannot be an empty field',
-        'any.required': 'missing required measure field'
-    }),
-    stepDescription: Joi.string().required().messages({
-        'string.base': '"stepDescription" should be a type of "string"',
-        'string.empty': '"stepDescription" cannot be an empty field',
-        'any.required': 'missing required stepDescription field'
-    }),
-
+    ingredients: Joi.array().items(
+        Joi.object({ 
+            categoryIngr: Joi.string().required().messages({
+            'string.base': '"categoryIngr" should be a type of "string"',
+            'string.empty': '"categoryIngr" cannot be an empty field',
+            'any.required': 'missing required categoryIngr field'
+            }),
+            product: Joi.string().required().messages({
+            'string.base': '"product" should be a type of "string"',
+            'string.empty': '"product" cannot be an empty field',
+            'any.required': 'missing required product field'
+            }),
+            quantity: Joi.string().required().messages({
+            'string.base': '"quantity" should be a type of "string"',
+            'string.empty': '"quantity" cannot be an empty field',
+            'any.required': 'missing required quantity field'
+            }),
+            measure: Joi.string().required().messages({
+            'string.base': '"measure" should be a type of "string"',
+            'string.empty': '"measure" cannot be an empty field',
+            'any.required': 'missing required measure field'
+            }),
+        })).min(1).required(),
+    steps: Joi.array().items(
+        Joi.object({
+            stepDescription: Joi.string().required().messages({
+                'string.base': '"stepDescription" should be a type of "string"',
+                'string.empty': '"stepDescription" cannot be an empty field',
+                'any.required': 'missing required stepDescription field'
+            }),
+        })).min(1).required(),
 
     favorite: Joi.boolean().messages({
         'string.base': '"favorite" should be a type of "boolean"',

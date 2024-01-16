@@ -2,8 +2,6 @@ const {Recipe} = require("../../models/recipe");
 
 
 const getOwnAll  = async (req, res) => { 
-    console.log("getOwnAll")
-    console.log("req=", req);
   
     const {_id} = req.user;
 
