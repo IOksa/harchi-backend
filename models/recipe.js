@@ -1,38 +1,9 @@
 const {Schema, model} = require("mongoose");
 const Joi = require("joi");
-
+const ingredientSchema = require ("./ingredients");
+const stepSchema=require("./steps");
 const {handleMongooseError} = require("../helpers");
 
-// const currentTime = new Date();
-
-const ingredientSchema = new Schema({
-    categoryIngr:{
-        type: String,
-        required: [true, 'Set category of ingredients for recipe'],
-    },
-    product:  {
-        type: String,
-        required: [true, 'Set product for recipe'],
-    },
-    quantity:{
-        type: Number,
-        required: [true, 'Set quantity of product for recipe'],
-    }, 
-    measure:{
-        type: String,
-        required: [true, 'Set measure of product for recipe'],
-    },
-});
-const stepSchema = new Schema({
-    stepDescription: {
-        type: String, 
-        required: [true, 'Set description of step for recipe'],
-    },
-    stepPhotoURL:{
-        type: String,
-
-    },
-});
 const recipeSchema = new Schema({ 
     title: {
         type: String,
