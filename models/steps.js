@@ -9,6 +9,10 @@ const stepSchema = new Schema({
         type: String,
 
     },
+    stepPhotoCloudinaryId: {
+        type: String,
+
+    },
 });
 
 module.exports=stepSchema;

@@ -65,6 +65,9 @@ const recipeSchema = new Schema({
     steps: {
         type: [stepSchema],
     },
+    mainPhotoCloudinaryId: {
+        type: String,
+    },
     
     favorite: {
         type: Boolean,
