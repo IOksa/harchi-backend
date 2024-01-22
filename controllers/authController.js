@@ -42,7 +42,6 @@ class AuthController {
 		try {
 			const { refreshToken } = req.cookies;
 			const token = await userService.logout(refreshToken);
-			window.localStorage.removeItem('token');
 			return res.json(token);
 		} catch (err) {
 			next(err);

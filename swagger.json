@@ -1,0 +1,233 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Harchi API",
+		"version": "1.0.0",
+		"description": ""
+	},
+	"components": {
+		"securitySchemes": {
+			"Bearer": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header",
+				"description": "Enter your access token"
+			}
+		},
+		"schemas": {
+			"LoginCredentials": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email",
+						"description": "User's email address"
+					},
+					"password": {
+						"type": "string",
+						"description": "User's password"
+					}
+				},
+				"required": ["email", "password"]
+			},
+			"RegistrationCredentials": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/LoginCredentials"
+					},
+					{
+						"type": "object",
+						"properties": {
+							"username": {
+								"type": "string"
+							}
+						}
+					}
+				]
+			},
+			"UserAccountSuccessResponse": {
+				"type": "object",
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					}
+				}
+			},
+			"User": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"username": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					},
+					"slogan": {
+						"type": "string"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"description": "Error message"
+					}
+				}
+			}
+		}
+	},
+	"tags": [
+		{
+			"name": "User settings"
+		},
+		{
+			"name": "Authorization"
+		}
+	],
+	"paths": {
+		"/api/auth/login": {
+			"post": {
+				"tags": ["Authorization"],
+				"summary": "Log in",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginCredentials"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserAccountSuccessResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/registration": {
+			"post": {
+				"tags": ["Authorization"],
+				"summary": "Sign up",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegistrationCredentials",
+								"properties": {
+									"username": "string"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserAccountSuccessResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/refresh": {
+			"get": {
+				"tags": ["Authorization"],
+				"summary": "Refresh access token",
+				"parameters": [
+					{
+						"name": "refreshToken",
+						"in": "cookie",
+						"description": "Refresh token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserAccountSuccessResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/logout": {
+			"post": {
+				"tags": ["Authorization"],
+				"summary": "Log out",
+				"parameters": [
+					{
+						"name": "refreshToken",
+						"in": "cookie",
+						"description": "Refresh token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {}
+						}
+					}
+				}
+			}
+		},
+		"/api/user/account": {
+			"delete": {
+				"tags": ["User settings"],
+				"summary": "Remove user account",
+				"description": "Remove user account",
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {}
+						}
+					}
+				}
+			}
+		}
+	}
+}

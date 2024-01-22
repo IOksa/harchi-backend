@@ -1,6 +1,10 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
+const swaggerUI = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.json');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 // const swaggerUi = require("swagger-ui-express");
@@ -19,6 +23,8 @@ const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+app.use(cookieParser());
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
