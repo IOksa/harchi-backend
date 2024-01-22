@@ -33,13 +33,17 @@ const upload = multer({
 
 
 const uploadAndValidate = (req, res, next) => {
-    upload.single('image')(req, res, (err) => {
-      console.log("uploadAndValidate");
+    upload.fields([
+      { name: 'avatar', maxCount: 1 },
+      { name: 'mainPhoto', maxCount: 1 },
+      { name: 'stepPhoto'}
+    ])(req, res, (err) => {
+      // console.log("uploadAndValidate");
       // console.log("req=", req);
       if (err) return res.status(400).send(err.message);
       
       const keyes = Object.keys(req);
-      const isFile  = keyes.includes('file');
+      const isFile  = keyes.includes('files');
 
       if(isEmpty(req.body) && isFile){    
         next(HttpError(400, 'missing fields'));
