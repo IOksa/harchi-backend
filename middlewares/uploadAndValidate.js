@@ -36,7 +36,27 @@ const uploadAndValidate = (req, res, next) => {
     upload.fields([
       { name: 'avatar', maxCount: 1 },
       { name: 'mainPhoto', maxCount: 1 },
-      { name: 'stepPhoto'}
+      { name: 'stepPhoto1'},
+      { name: 'stepPhoto2'},
+      { name: 'stepPhoto3'},
+      { name: 'stepPhoto4'},
+      { name: 'stepPhoto5'},
+      { name: 'stepPhoto6'},
+      { name: 'stepPhoto7'},
+      { name: 'stepPhoto8'},
+      { name: 'stepPhoto9'},
+      { name: 'stepPhoto10'},
+      { name: 'stepPhoto11'},
+      { name: 'stepPhoto12'},
+      { name: 'stepPhoto13'},
+      { name: 'stepPhoto14'},
+      { name: 'stepPhoto15'},
+      { name: 'stepPhoto16'},
+      { name: 'stepPhoto17'},
+      { name: 'stepPhoto18'},
+      { name: 'stepPhoto19'},
+      { name: 'stepPhoto20'},
+
     ])(req, res, (err) => {
       // console.log("uploadAndValidate");
       // console.log("req=", req);
