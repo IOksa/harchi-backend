@@ -1,0 +1,25 @@
+[
+    { "name": "avatar", "maxCount": 1 },
+    { "name": "mainPhoto", "maxCount": 1 },
+    { "name": "stepPhoto1", "maxCount": 5},
+    { "name": "stepPhoto2", "maxCount": 5},
+    { "name": "stepPhoto3", "maxCount": 5},
+    { "name": "stepPhoto4", "maxCount": 5},
+    { "name": "stepPhoto5", "maxCount": 5},
+    { "name": "stepPhoto6", "maxCount": 5},
+    { "name": "stepPhoto7", "maxCount": 5},
+    { "name": "stepPhoto8", "maxCount": 5},
+    { "name": "stepPhoto9", "maxCount": 5},
+    { "name": "stepPhoto10", "maxCount": 5},
+    { "name": "stepPhoto11", "maxCount": 5},
+    { "name": "stepPhoto12", "maxCount": 5},
+    { "name": "stepPhoto13", "maxCount": 5},
+    { "name": "stepPhoto14", "maxCount": 5},
+    { "name": "stepPhoto15", "maxCount": 5},
+    { "name": "stepPhoto16", "maxCount": 5},
+    { "name": "stepPhoto17", "maxCount": 5},
+    { "name": "stepPhoto18", "maxCount": 5},
+    { "name": "stepPhoto19", "maxCount": 5},
+    { "name": "stepPhoto20", "maxCount": 5}
+
+  ]

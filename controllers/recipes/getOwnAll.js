@@ -3,12 +3,12 @@ const {Recipe} = require("../../models/recipe");
 
 const getOwnAll  = async (req, res) => { 
   
-    const {_id} = req.user;
+    const {id} = req.user;
 
     const {page = 1, limit = 20, favorite = false} = req.query;
     const skip = (page - 1) * limit;
 
-    const query = { owner: _id };
+    const query = { owner: id };
 
     if (favorite) {
         query.favorite = favorite;
@@ -20,8 +20,8 @@ const getOwnAll  = async (req, res) => {
     const total=result.length;
     
     res.json({
-        page: page,
-        total: total,
+        page,
+        total,
         recipes: result});
 };
 

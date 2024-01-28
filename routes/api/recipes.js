@@ -14,7 +14,6 @@ router.get('/:id', authenticate, isValidId, ctrl.getById);
 router.delete('/:id', authenticate, isValidId, ctrl.deleteById);
 
 router.post('/', authenticate, uploadAndValidate, ctrl.add);
-// router.post('/', validateBody(schemas.addSchema), ctrl.add);
 
 router.put('/:id', authenticate, isValidId, validateBody(schemas.addSchema), ctrl.updateById);
 

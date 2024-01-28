@@ -4,38 +4,41 @@ const {Recipe} = require("../../models/recipe");
 
 const { handleCloudinaryUpload } = require("../../helpers");
 
-const add = async (req, res) => {
-    console.log("add")
+const add = async (req, res) => { 
     const {id: owner} = req.user;
     let result;
     let mainPhotoCloudinaryId;
     let mainPhotoURL;
-    const body={...req.body};
+    const create={...req.body};
+    console.log("create", create);
 
     if(req?.files && !_.isEmpty(req.files)){ 
         const keys = Object.keys(req.files);
+
         for (const key of keys) {
+            const imagesArray=[];
             for (let i = 0; i < req.files[key].length; i += 1) {
                 const cldRes = await handleCloudinaryUpload(req.files[key][i].path);
+                
                 if(key==="mainPhoto"){
                     mainPhotoCloudinaryId=cldRes.public_id;
                     mainPhotoURL =cldRes.secure_url;
                 }
                 if(key.includes("stepPhoto")){
                     const index=key.slice(9);
-                    body.steps[index-1]={...body.steps[index-1], stepPhotoCloudinaryId:cldRes.public_id, stepPhotoURL:cldRes.secure_url};                  
+                    imagesArray.push({stepPhotoCloudinaryId:cldRes.public_id, stepPhotoURL:cldRes.secure_url});
+                   create.steps[index-1]={...create.steps[index-1], stepImages:imagesArray}; 
+                  
                 }
             }
-        
-          
         }
 
-        result = await Recipe.create({...body, mainPhotoURL, mainPhotoCloudinaryId, owner});
+        result = await Recipe.create({...create, mainPhotoURL, mainPhotoCloudinaryId, owner});
         res.status(201).json(result);
     
     }
     else{
-        result = await Recipe.create({...req.body, owner});
+        result = await Recipe.create({...create, owner});
         res.status(201).json(result);
     }
 
