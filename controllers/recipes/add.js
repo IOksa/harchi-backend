@@ -10,9 +10,9 @@ const add = async (req, res) => {
     let mainPhotoCloudinaryId;
     let mainPhotoURL;
     const create={...req.body};
-    console.log("create", create);
 
     if(req?.files && !_.isEmpty(req.files)){ 
+        console.log("req.files", req.files);
         const keys = Object.keys(req.files);
 
         for (const key of keys) {

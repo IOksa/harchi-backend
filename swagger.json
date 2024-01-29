@@ -5,6 +5,13 @@
 		"version": "1.0.0",
 		"description": ""
 	},
+	"consumes": ["application/json", "multipart/form-data"],
+	"servers": [
+		{
+		  "description": "Harchi backend URL",
+		  "url": "https://harchi-backend.onrender.com"
+		}
+	  ],
 	"components": {
 		"securitySchemes": {
 			"Bearer": {
@@ -14,6 +21,7 @@
 				"description": "Enter your access token"
 			}
 		},
+			
 		"schemas": {
 			"LoginCredentials": {
 				"type": "object",
@@ -85,6 +93,82 @@
 						"description": "Error message"
 					}
 				}
+			},
+			"errorBadRequestResponse": {
+				"type": "object",
+				"properties": {
+				  "status": {
+					"type": "integer",
+					"description": "Error status code",
+					"example": "400"
+				  },
+				  "message": {
+					"type": "string",
+					"description": "Error message",
+					"example": "missing fields"
+				  }
+				}
+			},
+			"errorNotValidId": {
+				"type": "object",
+				"properties": {
+				  "status": {
+					"type": "integer",
+					"description": "Error status code",
+					"example": "400"
+				  },
+				  "message": {
+					"type": "string",
+					"description": "Error message",
+					"example": "Id is not valid"
+				  }
+				}
+			},
+			  
+			"errorUnauthorizedResponse": {
+				"type": "object",
+				"properties": {
+				  "status": {
+					"type": "integer",
+					"description": "Error status code",
+					"example": "401"
+				  },
+				  "message": {
+					"type": "string",
+					"description": "Error message",
+					"example": "User is not authorized"
+				  }
+				}
+			},
+			"errorNotFoundResponse": {
+				"type": "object",
+				"properties": {
+				  "status": {
+					"type": "integer",
+					"description": "Error status code",
+					"example": "404"
+				  },
+				  "message": {
+					"type": "string",
+					"description": "Error message",
+					"example": "Not found"
+				  }
+				}
+			},
+			"errorConflictResponse": {
+				"type": "object",
+				"properties": {
+				  "status": {
+					"type": "integer",
+					"description": "Error status code",
+					"example": "409"
+				  },
+				  "message": {
+					"type": "string",
+					"description": "Error message",
+					"example": "Conflict"
+				  }
+				}
 			}
 		}
 	},
@@ -94,7 +178,15 @@
 		},
 		{
 			"name": "Authorization"
-		}
+		},
+		{
+			"name": "Recipes",
+			"description": "Recipes endpoints"
+		  },
+		  {
+			"name": "Feedback",
+			"description": "Feedback endpoints"
+		  }
 	],
 	"paths": {
 		"/api/auth/login": {
@@ -224,6 +316,369 @@
 					"200": {
 						"content": {
 							"application/json": {}
+						}
+					}
+				}
+			}
+		},
+		"/recipes": {
+			"get": {
+				"tags": ["Recipes"],
+				"description": "Return all recipes",
+				"security": [],
+				"parameters": [{
+					"in": "query",
+					"name": "page",
+					"schema": {
+					  "type": "integer"
+					},
+					"description": "The number of page to return",
+					"default": "1"
+				  },
+				  {
+					"in": "query",
+					"name": "limit",
+					"schema": {
+					  "type": "integer"
+					},
+					"description": "The numbers of items to return",
+					"default": "20"
+				  }],
+				"responses": {
+					"200": {
+						"description": "Return all recipes",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipeResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			
+			"post": {
+				"tags": ["Recipes"],
+				"description": "Add the customer's recipe",
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "The JWT token issued to the current user.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Add the customer's recipe",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipeRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Recipe was successfully added",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RecipeResponse"
+								}
+							}
+						}
+					},
+					"401": {
+					  "description": "Bearer auth failed",
+					  "content": {
+						"application/json": {
+						  "schema": {
+							"$ref": "#/components/schemas/errorUnauthorizedResponse"
+						  }
+						}
+					  }
+					}
+				}
+			}
+		},
+		"/recipes/:id": {
+			"get": {
+				"tags": ["Recipes"],
+				"description": "Return recipe by id",
+				"security": [{"bearerAuth": []}],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "Return recipe by id",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipeResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"tags": ["Recipes"],
+				"description": "Edit user`s own recipe",
+				"security": [{"bearerAuth": []}],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "The JWT token issued to the current user.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"required": true,
+						"name": "id",
+						"schema": {
+							"type": "string"
+						},
+						"description": "Recipe ID."
+					}
+				],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipeRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The recipe was successfully updated.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+						  "application/json": {
+							"schema": {
+							  "$ref": "#/components/schemas/errorNotValiId"
+							}
+						  }
+						}
+					},
+					"401": {
+					  "description": "Bearer auth failed",
+					  "content": {
+						"application/json": {
+						  "schema": {
+							"$ref": "#/components/schemas/errorUnauthorizedResponse"
+						  }
+						}
+					  }
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Recipes"],
+				"description": "Delete customer's recipe",
+				"security": [{"bearerAuth": []}],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "The JWT token issued to the current user.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"required": true,
+						"name": "id",
+						"schema": {
+							"type": "string"
+						},
+						"description": "Recipe ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The recipe was successfully deleted."
+					},
+					"401": {
+					  "description": "Bearer auth failed",
+					  "content": {
+						"application/json": {
+						  "schema": {
+							"$ref": "#/components/schemas/errorUnauthorizedResponse"
+						  }
+						}
+					  }
+					},
+					"404": {
+					  "description": "Not Found",
+					  "content": {
+						"application/json": {
+						  "schema": {
+							"$ref": "#/components/schemas/errorNotFoundResponse"
+						  }
+						}
+					  }
+					}
+				}
+			}
+		  },
+		"/recipes/own": {
+			"get": {
+				"tags": ["Recipes"],
+				"description": "Return all own recipes",
+				"security": [{"bearerAuth": []}],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "The JWT token issued to the customer.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Return all own recipes",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipesResponse"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Bearer auth failed",
+						"content": {
+						"application/json": {
+							"schema": {
+							"$ref": "#/components/schemas/errorUnauthorizedResponse"
+							}
+						}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"schema": {
+								"$ref": "#/components/schemas/errorNotFoundResponse"
+								}
+							}
+						}
+					}	
+					
+				}
+			}
+		},
+		"/recipes/:id/favorite": {				
+			"patch": {
+				"tags": ["Recipes"],
+				"description": "Add to favorite recipes",
+				"security": [{"bearerAuth": []}],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "The JWT token issued to the current user.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"required": true,
+						"name": "id",
+						"schema": {
+							"type": "string"
+						},
+						"description": "Recipe ID"
+					}
+				],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipeRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The recipe was successfully updated.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+						  "application/json": {
+							"schema": {
+							  "$ref": "#/components/schemas/errorNotValiId"
+							}
+						  }
+						}
+					},
+					"401": {
+					  "description": "Bearer auth failed",
+					  "content": {
+						"application/json": {
+						  "schema": {
+							"$ref": "#/components/schemas/errorUnauthorizedResponse"
+						  }
+						}
+					  }
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+						  "application/json": {
+							"schema": {
+							  "$ref": "#/components/schemas/errorNotFoundResponse"
+							}
+						  }
 						}
 					}
 				}

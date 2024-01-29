@@ -2,20 +2,21 @@ const express = require('express');
 const ctrl = require("../../controllers/recipes");
 
 const {validateBody, isValidId, authenticate, uploadAndValidate} = require("../../middlewares");
-const {schemas} = require("../../models/recipe");
+const {schemas} = require("../../models/recipeJoiSchemas");
 
 const router = express.Router();
 
 router.get('/', ctrl.getAll);
+
+router.post('/', authenticate, uploadAndValidate(schemas.addRecipeSchema), ctrl.add);
+
 router.get('/own', authenticate, ctrl.getOwnAll);
 
 router.get('/:id', authenticate, isValidId, ctrl.getById);
 
 router.delete('/:id', authenticate, isValidId, ctrl.deleteById);
 
-router.post('/', authenticate, uploadAndValidate, ctrl.add);
-
-router.put('/:id', authenticate, isValidId, validateBody(schemas.addSchema), ctrl.updateById);
+router.patch('/:id', authenticate, isValidId, uploadAndValidate(schemas.editRecipeSchema), ctrl.updateById);
 
 router.patch('/:id/favorite', authenticate, isValidId, validateBody(schemas.updateFavoriteSchema), ctrl.updateStatusRecipe);
 
