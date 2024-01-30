@@ -1,5 +1,4 @@
-const cloudinary = require("cloudinary").v2;
-const _ = require('lodash');
+const isEmpty = require('lodash.isempty');
 const {Recipe} = require("../../models/recipe");
 
 const { handleCloudinaryUpload } = require("../../helpers");
@@ -11,8 +10,8 @@ const add = async (req, res) => {
     let mainPhotoURL;
     const create={...req.body};
 
-    if(req?.files && !_.isEmpty(req.files)){ 
-        console.log("req.files", req.files);
+    if(req?.files && !isEmpty(req.files)){ 
+  
         const keys = Object.keys(req.files);
 
         for (const key of keys) {

@@ -115,6 +115,11 @@ const editRecipeSchema = Joi.object({
         'string.empty': '"description" cannot be an empty field',
 
     }),
+    mainPhotoURL:Joi.string().messages({
+        'string.base': '"mainPhotoURL" should be a type of "string"',
+        'string.empty': '"mainPhotoURL" cannot be an empty field',
+
+    }),
     category: Joi.string().messages({
         'string.base': '"category" should be a type of "string"',
         'string.empty': '"category" cannot be an empty field',
@@ -196,7 +201,16 @@ const editRecipeSchema = Joi.object({
                 'string.empty': '"stepDescription" cannot be an empty field',
    
             }),
-        })).min(1),
+            // stepImages: Joi.array().items(
+            //     Joi.object({
+            //         stepPhotoURL: Joi.string().messages({
+            //             'string.base': '"stepPhotoURL" should be a type of "string"',
+            //             'string.empty': '"stepPhotoURL" cannot be an empty field',
+           
+            //         }),
+            //     }),
+            // ),
+        })),
    
 });
 

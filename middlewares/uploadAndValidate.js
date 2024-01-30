@@ -1,6 +1,5 @@
 const multer = require("multer");
 const {HttpError} = require("../helpers");
-const {schemas} = require("../models/recipe");
 const path = require('path');
 const fileFields = require("../constants/fileFields.json");
 const isEmpty = require('lodash.isempty');
@@ -34,17 +33,18 @@ const upload = multer({
 
 
 const uploadAndValidate = schema=>{
-    
-  const func =(req, res, next) => {
  
+  const func =(req, res, next) => {
+
     upload.fields(fileFields)(req, res, (err) => {
-      
+
       if (err) return res.status(400).send(err.message);
 
       const keyes = Object.keys(req);
       const isFile  = keyes.includes('files');
 
-      if(isEmpty(req.body) && isFile){    
+      if(isEmpty(req.body) && !isFile){
+ 
         next(HttpError(400, 'missing fields'));
       }
       else{
