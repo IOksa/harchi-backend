@@ -6,15 +6,13 @@ const {schemas} = require("../../models/recipeJoiSchemas");
 
 const router = express.Router();
 
-router.get('/', ctrl.getAll);
+router.get('/', ctrl.getFilterAll);
 
 router.post('/', authenticate, uploadAndValidate(schemas.addRecipeSchema), ctrl.add);
 
 router.get('/own', authenticate, ctrl.getOwnAll);
 
 router.get('/:id', authenticate, isValidId, ctrl.getById);
-
-router.get('/category', ctrl.getCategoryAll);
 
 router.delete('/:id', authenticate, isValidId, ctrl.deleteById);
 
