@@ -26,7 +26,7 @@ const add = async (req, res) => {
                 if(key.includes("stepPhoto")){
                     const index=key.slice(9);
                     imagesArray.push({stepPhotoCloudinaryId:cldRes.public_id, stepPhotoURL:cldRes.secure_url});
-                   create.steps[index-1]={...create.steps[index-1], stepImages:imagesArray}; 
+                    create.steps[index-1]={...create.steps[index-1], stepImages:imagesArray}; 
                   
                 }
             }

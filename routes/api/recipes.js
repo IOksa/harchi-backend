@@ -14,10 +14,15 @@ router.get('/own', authenticate, ctrl.getOwnAll);
 
 router.get('/:id', authenticate, isValidId, ctrl.getById);
 
+router.get('/category', ctrl.getCategoryAll);
+
 router.delete('/:id', authenticate, isValidId, ctrl.deleteById);
 
 router.patch('/:id', authenticate, isValidId, uploadAndValidate(schemas.editRecipeSchema), ctrl.updateById);
 
 router.patch('/:id/favorite', authenticate, isValidId, validateBody(schemas.updateFavoriteSchema), ctrl.updateStatusRecipe);
+
+
+
 
 module.exports = router;

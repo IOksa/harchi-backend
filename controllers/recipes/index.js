@@ -6,6 +6,7 @@ const add=require('./add');
 const updateById=require ('./updateById');
 const deleteById=require ('./deleteById');
 const updateStatusRecipe=require('./updateStatusRecipe');
+const getCategoryAll = require('./getCategoryAll');
 
 
 module.exports = {
@@ -16,4 +17,5 @@ module.exports = {
     updateById: ctrlWrapper(updateById),
     deleteById: ctrlWrapper(deleteById),
     updateStatusRecipe: ctrlWrapper(updateStatusRecipe),
+    getCategoryAll: ctrlWrapper(getCategoryAll),
 }

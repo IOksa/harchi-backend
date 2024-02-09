@@ -7,8 +7,6 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerSpec = require('./swagger.json');
 require('dotenv').config();
 const bodyParser = require('body-parser');
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerDocument = require("./swagger.json");
 
 const AuthRouter = require('./routes/api/auth');
 const userRouter = require('./routes/api/user');
