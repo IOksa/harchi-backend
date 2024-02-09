@@ -1,5 +1,5 @@
 const { ctrlWrapper } = require("../../helpers");
-const getAll = require('./getAll');
+const getFilterAll = require('./getFilterAll');
 const getOwnAll = require('./getOwnAll');
 const getById=require('./getById');
 const add=require('./add');
@@ -9,11 +9,12 @@ const updateStatusRecipe=require('./updateStatusRecipe');
 
 
 module.exports = {
-    getAll: ctrlWrapper(getAll),
+    getFilterAll: ctrlWrapper(getFilterAll),
     getOwnAll: ctrlWrapper(getOwnAll),
     getById: ctrlWrapper(getById),
     add: ctrlWrapper(add),
     updateById: ctrlWrapper(updateById),
     deleteById: ctrlWrapper(deleteById),
     updateStatusRecipe: ctrlWrapper(updateStatusRecipe),
+ 
 }

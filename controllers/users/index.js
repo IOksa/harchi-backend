@@ -9,6 +9,7 @@ const removeAvatar = require('./removeAvatar');
 const getLastComments = require('./getLastComments');
 const removeAccount = require('./removeAccount');
 
+
 module.exports = {
 	getStatistics: ctrlWrapper(getStatistics),
 	getLastComments: ctrlWrapper(getLastComments),
@@ -19,4 +20,5 @@ module.exports = {
 	addAvatar: ctrlWrapper(addAvatar),
 	removeAvatar: ctrlWrapper(removeAvatar),
 	removeAccount: ctrlWrapper(removeAccount),
+
 };
