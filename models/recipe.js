@@ -33,6 +33,7 @@ const recipeSchema = new Schema({
     },
     difficulty:{
         type: String,
+        enum: ["Легко", "Помірно", "Складно"],
         required: [true, 'Set difficulty for recipe'],
     },
     prepTime:{
@@ -77,7 +78,13 @@ const recipeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-     }
+     },
+     username: {
+        type: String,
+      },
+      avatar: {
+        type: String,
+      },
 }, {versionKey: false, timestamps: true});
 
 recipeSchema.post("save", handleMongooseError);

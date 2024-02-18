@@ -4,7 +4,7 @@ const {Recipe} = require("../../models/recipe");
 const { handleCloudinaryUpload } = require("../../helpers");
 
 const add = async (req, res) => { 
-    const {id: owner} = req.user;
+    const {id: owner, username, avatar} = req.user;
     let result;
     let mainPhotoCloudinaryId;
     let mainPhotoURL;
@@ -32,7 +32,7 @@ const add = async (req, res) => {
             }
         }
 
-        result = await Recipe.create({...create, mainPhotoURL, mainPhotoCloudinaryId, owner});
+        result = await Recipe.create({...create, mainPhotoURL, mainPhotoCloudinaryId, owner, username, avatar});
         res.status(201).json(result);
     
     }
